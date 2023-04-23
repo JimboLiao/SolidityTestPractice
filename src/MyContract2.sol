@@ -13,7 +13,7 @@ contract MyContract2 {
         user2 = _user2;
     }
 
-    function send(address to, uint256 amount) external payable {
+    function sendEther(address to, uint256 amount) external payable {
         require(msg.sender == user1 || msg.sender == user2, "only user1 or user2 can send");
         require(address(this).balance >= amount, "insufficient balance");
 
