@@ -8,16 +8,14 @@ interface IWETH9 {
     function withdraw(uint256 _amount) external;
 }
 
-contract WETH is ERC20, IWETH9{
-    constructor () ERC20("WETH", "WETH", 18){
-    }
+contract WETH is ERC20, IWETH9 {
+    constructor() ERC20("WETH", "WETH", 18) {}
 
     event Withdraw(address indexed to, uint256 indexed amount);
     event Deposit(address indexed from, uint256 indexed amount);
-    
 
     // deposit ETH and get WETH
-    function deposit() external payable {
+    function deposit() public payable {
         _mint(msg.sender, msg.value);
         emit Deposit(msg.sender, msg.value);
     }
@@ -26,12 +24,12 @@ contract WETH is ERC20, IWETH9{
     function withdraw(uint256 _amount) external {
         _burn(msg.sender, _amount);
         emit Withdraw(msg.sender, _amount);
-        (bool sent, /*bytes memory data*/) = payable(msg.sender).call{value:_amount}("");
+        (bool sent, /*bytes memory data*/ ) = payable(msg.sender).call{value: _amount}("");
         require(sent, "transfer eth failed");
     }
 
     // same as deposit
-    receive() payable external { 
+    receive() external payable {
         deposit();
     }
 }
