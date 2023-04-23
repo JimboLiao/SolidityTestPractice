@@ -49,7 +49,7 @@ contract TestMyContract2 is Test {
         vm.stopPrank();
     }
 
-/*
+    /*
     function testSendEther(address _addr, address _to, uint256 _amount, uint256 _balance) public {
         vm.deal(address(instance), _balance); // contract's balance is _balance
         vm.startPrank(_addr); // pretending as _addr
@@ -69,9 +69,9 @@ contract TestMyContract2 is Test {
         }
         vm.stopPrank();
     }
-*/
+    */
 
-    function testSendEtherNotUsers () public {
+    function testSendEtherNotUsers() public {
         vm.deal(address(instance), 1 ether);
         vm.startPrank(address(3));
         vm.expectRevert("only user1 or user2 can send");
@@ -80,7 +80,7 @@ contract TestMyContract2 is Test {
         console.logAddress(user1);
     }
 
-    function testSendEtherNotEnoughBalance () public {
+    function testSendEtherNotEnoughBalance() public {
         vm.deal(address(instance), 1 ether);
         vm.startPrank(user1);
         vm.expectRevert("insufficient balance");
