@@ -8,6 +8,7 @@ contract WethTest is Test {
     WETH instance;
     address bob;
     address alice;
+    uint256 bobPrivateKey;
     // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
     bytes32 public constant PERMIT_TYPEHASH = 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
 
@@ -19,10 +20,8 @@ contract WethTest is Test {
 
     function setUp() public {
         instance = new WETH();
-        bob = vm.addr(1); // bob's private key is 1
-        alice = vm.addr(2); // alice's private key is 2
-        vm.label(bob, "Bob");
-        vm.label(alice, "Alice");
+        (bob, bobPrivateKey) = makeAddrAndKey("bob");
+        alice = makeAddr("alice");
     }
 
     // test deposit function
@@ -162,7 +161,7 @@ contract WethTest is Test {
         );
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(
-            1, // bob's private key is 1
+            bobPrivateKey,
             diagest
         );
         // expect approval event
@@ -185,7 +184,7 @@ contract WethTest is Test {
         );
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(
-            1, // bob's private key is 1
+            bobPrivateKey,
             diagest
         );
 
@@ -206,7 +205,7 @@ contract WethTest is Test {
         );
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(
-            1, // bob's private key is 1
+            bobPrivateKey,
             diagest
         );
 

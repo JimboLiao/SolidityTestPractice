@@ -15,11 +15,10 @@ contract TestMyContract2 is Test {
 
     function setUp() public {
         //  Set user1, user2
-        user1 = address(1);
-        user2 = address(2);
         // (optional) label user1 as bob, user2 as alice
-        vm.label(user1, "bob");
-        vm.label(user2, "alice");
+        user1 = makeAddr("bob");
+        user2 = makeAddr("alice");
+        
         //  Create a new instance of MyContract2
         instance = new MyContract2(user1, user2);
     }
