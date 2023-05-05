@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 
 import "forge-std/Test.sol";
 
-interface BAYC {
+interface IBAYC {
     function mintApe(uint256 numberOfTokens) external payable;
     function balanceOf(address owner) external view returns (uint256 balance);
 }
@@ -11,9 +11,9 @@ interface BAYC {
 contract TestFork is Test {
     function setUp() public {
         // set ETH_RPC_URL in .env
-
         // source .env
         // forge test --fork-url $ETH_RPC_URL --fork-block-number 12299047 --match-contract TestFork -vvvvv
+        vm.createSelectFork("mainnet", 12299047);
     }
 
     function testFork() public {
@@ -31,14 +31,14 @@ contract TestFork is Test {
         address baycAddr = 0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D;
         uint256 originalBalance = baycAddr.balance;
         vm.startPrank(user1);
-        BAYC(baycAddr).mintApe{value: 1.6 ether}(20); // 20 tokens at most in 1 time
-        BAYC(baycAddr).mintApe{value: 1.6 ether}(20);
-        BAYC(baycAddr).mintApe{value: 1.6 ether}(20);
-        BAYC(baycAddr).mintApe{value: 1.6 ether}(20);
-        BAYC(baycAddr).mintApe{value: 1.6 ether}(20);
+        IBAYC(baycAddr).mintApe{value: 1.6 ether}(20); // 20 tokens at most in 1 time
+        IBAYC(baycAddr).mintApe{value: 1.6 ether}(20);
+        IBAYC(baycAddr).mintApe{value: 1.6 ether}(20);
+        IBAYC(baycAddr).mintApe{value: 1.6 ether}(20);
+        IBAYC(baycAddr).mintApe{value: 1.6 ether}(20);
         vm.stopPrank();
 
-        assertEq(BAYC(baycAddr).balanceOf(user1), 100); // user1's balance is 100
+        assertEq(IBAYC(baycAddr).balanceOf(user1), 100); // user1's balance is 100
         assertEq((baycAddr.balance - originalBalance), 8 ether); // received 8 ether
     }
 }
